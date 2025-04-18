@@ -18,10 +18,10 @@ minta_izin_penyimpanan() {
 # Judul instalasi
 echo -e "\e[1;36m=== Instalasi Pemutar Musik Termux ===\e[0m"
 
-# 1. Minta izin penyimpanan
+# Minta izin penyimpanan
 minta_izin_penyimpanan
 
-# 2. Install dependensi
+# Install dependensi
 dependencies=("mpv" "git" "findutils")
 for pkg in "${dependencies[@]}"; do
     if ! command -v "$pkg" &> /dev/null; then
@@ -35,27 +35,13 @@ for pkg in "${dependencies[@]}"; do
     fi
 done
 
-# 3. Clone repo
-if [ ! -d "musikan" ]; then
-    git clone https://github.com/y3305/musikan.git || {
-        echo -e "\e[31mGagal clone repository!\e[0m"
-        exit 1
-    }
-    cd musikan
-else
-    cd musikan
-    git pull origin main || {
-        echo -e "\e[33mWarning: Gagal update repository\e[0m"
-    }
-fi
-
-# 4. Buat folder musik default jika belum ada
+# Buat folder musik default jika belum ada
 mkdir -p "$HOME/storage/shared/Music" 2>/dev/null
 
-# 5. Beri izin eksekusi
+# Beri izin eksekusi
 chmod +x musikan.sh
 
-# 6. Buat symlink
+# Buat symlink
 ln -sf "$PWD/musikan.sh" "$PREFIX/bin/musikan" || {
     echo -e "\e[31mGagal membuat symlink!\e[0m"
     exit 1
@@ -68,3 +54,6 @@ echo -e "1. Simpan file musik di \e[1m~/storage/shared/Music\e[0m"
 echo -e "2. Jalankan dengan ketik: \e[1mmusikan\e[0m"
 echo -e "\nUntuk uninstall:"
 echo -e "\e[1mrm -rf ~/musikan && rm $PREFIX/bin/musikan\e[0m"
+echo -e "\natau jalankan berintah berikut;"
+echo -e "\e[1mrm chmod +x $HOME/musikan/uninstall.sh\[0m"
+echo -e "\e[1mrm bash $HOME/musikan/uninstall.sh\e[0m"
